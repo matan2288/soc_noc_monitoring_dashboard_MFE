@@ -1,0 +1,16 @@
+{
+  "name": "soc-noc-monitoring-dashboard-poa",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -r --parallel --filter ./apps/* --filter ./packages/mock-ws run dev",
+    "dev:shell": "pnpm --filter @noc/shell dev",
+    "dev:cloud-map": "pnpm --filter @noc/cloud-map dev",
+    "build": "pnpm -r --filter ./apps/* run build",
+    "preview": "pnpm -r --parallel --filter ./apps/* run preview"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
+  "packageManager": "pnpm@9.15.0"
+}
