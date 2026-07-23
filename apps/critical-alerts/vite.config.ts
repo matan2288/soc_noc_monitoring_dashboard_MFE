@@ -1,23 +1,14 @@
 import { federation } from "@module-federation/vite";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
+import mfConfig from "./module-federation.config";
+
+const origin = "http://localhost:5176";
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    federation({
-      name: "criticalAlerts",
-      filename: "remoteEntry.js",
-      // shell will call mount()/unmount() — expose that contract later
-      exposes: {
-        "./mount": "./src/mount.ts",
-      },
-      shared: {
-        zustand: { singleton: true },
-      },
-    }),
-  ],
-  build: { target: "esnext" },
-  server: { port: 5176, strictPort: true, origin: "http://localhost:5176" },
+  base: origin,
+  plugins: [vue(), federation(mfConfig)],
+  build: { target: "chrome89" },
+  server: { port: 5176, strictPort: true, origin },
   preview: { port: 5176, strictPort: true },
 });

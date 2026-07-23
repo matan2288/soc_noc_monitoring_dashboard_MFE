@@ -1,30 +1,14 @@
 import { federation } from "@module-federation/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
+import mfConfig from "./module-federation.config";
+
+const origin = "http://localhost:5173";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    federation({
-      name: "shell",
-      remotes: {
-        cloudMap: {
-          type: "module",
-          name: "cloudMap",
-          entry: "http://localhost:5174/remoteEntry.js",
-        },
-        // wire later:
-        // securityLogs: { type: "module", name: "securityLogs", entry: "http://localhost:5175/remoteEntry.js" },
-        // criticalAlerts: { type: "module", name: "criticalAlerts", entry: "http://localhost:5176/remoteEntry.js" },
-      },
-      shared: {
-        react: { singleton: true },
-        "react-dom": { singleton: true },
-        zustand: { singleton: true },
-      },
-    }),
-  ],
-  build: { target: "esnext" },
-  server: { port: 5173, strictPort: true },
+  base: origin,
+  plugins: [react(), federation(mfConfig)],
+  build: { target: "chrome89" },
+  server: { port: 5173, strictPort: true, origin },
   preview: { port: 5173, strictPort: true },
 });
